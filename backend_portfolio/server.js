@@ -7,7 +7,12 @@ const apiRoutes = require('./routes/api');
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://codelabportfolio-plum.vercel.app', // Apna Vercel link yahan dalo
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
+
 app.use(express.json()); // Body parser 
 app.use('/api', apiRoutes);
 
