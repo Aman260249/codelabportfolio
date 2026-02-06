@@ -8,6 +8,9 @@ const Contact = () => {
   const boxBg = "linear-gradient(135deg, #202021 0%, #2C2833 50%, #201731 100%)";
   const neonColor = "#8E7FFF";
 
+  // 🔥 DIRECT BACKEND URL (No more undefined errors)
+  const backendUrl = "https://codelabportfolio.onrender.com";
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -16,26 +19,23 @@ const Contact = () => {
     message: ''
   });
 
-  // 🔥 NEW: STATUS STATE
   const [status, setStatus] = useState(null); // success | error | null
 
-  // INPUT CHANGE
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // FORM SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // API call using direct URL
       const response = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/api/contact`,
+        `${backendUrl}/api/contact`,
         formData
       );
 
       if (response.data.success) {
         setStatus("success");
-
         setFormData({
           firstName: '',
           lastName: '',
@@ -43,8 +43,6 @@ const Contact = () => {
           phone: '',
           message: ''
         });
-
-        // auto hide message
         setTimeout(() => setStatus(null), 4000);
       }
     } catch (error) {
@@ -145,7 +143,7 @@ const Contact = () => {
                 name="firstName"
                 value={formData.firstName}
                 placeholder="Your First Name"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white"
+                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
                 onChange={handleChange}
                 required
               />
@@ -154,7 +152,7 @@ const Contact = () => {
                 name="lastName"
                 value={formData.lastName}
                 placeholder="Your Last Name"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white"
+                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
                 onChange={handleChange}
                 required
               />
@@ -166,7 +164,7 @@ const Contact = () => {
                 name="email"
                 value={formData.email}
                 placeholder="Your Email Address"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white"
+                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
                 onChange={handleChange}
                 required
               />
@@ -175,7 +173,7 @@ const Contact = () => {
                 name="phone"
                 value={formData.phone}
                 placeholder="Your Phone Number"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white"
+                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
                 onChange={handleChange}
               />
             </div>
@@ -185,7 +183,7 @@ const Contact = () => {
               rows="5"
               value={formData.message}
               placeholder="Tell me about your project"
-              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white resize-none"
+              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white resize-none outline-none focus:border-[#8E7FFF]"
               onChange={handleChange}
               required
             />
@@ -194,7 +192,7 @@ const Contact = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full py-5 bg-[#8E7FFF] text-black font-black uppercase tracking-widest rounded-xl"
+              className="w-full py-5 bg-[#8E7FFF] text-black font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
             >
               Send Message
             </motion.button>
