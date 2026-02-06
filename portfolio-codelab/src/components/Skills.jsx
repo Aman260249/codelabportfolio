@@ -14,8 +14,9 @@ const Skills = () => {
   ];
 
   return (
-    // min-h-screen + pt-28 for mobile top gap
-    <section id="skills" className="h-screen w-full flex flex-col items-center justify-start laptop:justify-center px-6 pt-28 pb-12 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-x-hidden">
+    // Changed h-screen to min-h-screen for flexibility
+    // Desktop: items-center, Mobile: justify-start (to prevent top cut)
+    <section id="skills" className="min-h-screen w-full flex flex-col items-center justify-start laptop:justify-center px-6 pt-24 pb-12 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-x-hidden">
       
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] laptop:w-[500px] h-[300px] laptop:h-[500px] bg-[#8E7FFF]/5 blur-[120px] rounded-full -z-0" />
 
@@ -23,13 +24,13 @@ const Skills = () => {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         style={{ backgroundImage: textGradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
-        className="text-4xl laptop:text-6xl font-extrabold mb-12 laptop:mb-16 z-10 text-center"
+        className="text-4xl laptop:text-6xl font-extrabold mb-12 laptop:mb-20 z-10 text-center"
       >
         Skills
       </motion.h2>
 
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         whileInView={{ opacity: 1, scale: 1 }}
         style={{ 
           background: boxGradient, 
@@ -38,8 +39,8 @@ const Skills = () => {
         }}
         className="w-full max-w-[1200px] border-2 rounded-3xl p-6 laptop:p-12 relative z-10"
       >
-        {/* Desktop Tabs */}
-        <div className="hidden tablet:flex justify-around absolute -top-5 left-0 w-full">
+        {/* Category Labels (Desktop Only Tabs) */}
+        <div className="hidden laptop:flex justify-around absolute -top-5 left-0 w-full">
           {skillData.map((item) => (
             <motion.div 
               key={item.category}
@@ -52,12 +53,15 @@ const Skills = () => {
           ))}
         </div>
 
-        {/* Skills Grid - 2 cols on mobile, 4 on laptop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 laptop:grid-cols-4 gap-6 mt-4 laptop:mt-6">
+        {/* Skills Grid - Fixed Layout */}
+        {/* Mobile: 1 col | Tablet: 2 cols | Laptop: 4 cols */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 laptop:grid-cols-4 gap-8 laptop:gap-10">
           {skillData.map((group, groupIdx) => (
-            <div key={group.category} className="space-y-4">
+            <div key={group.category} className="flex flex-col space-y-4">
+              
+              {/* Category Label (Visible on Mobile/Tablet where tabs are hidden) */}
               <div 
-                className="tablet:hidden text-white font-bold mb-3 uppercase tracking-widest border-b-2 pb-1 text-sm"
+                className="laptop:hidden text-white font-bold mb-2 uppercase tracking-widest border-b-2 pb-1 text-xs"
                 style={{ borderColor: borderColor }}
               >
                 {group.category}
@@ -70,11 +74,15 @@ const Skills = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: (groupIdx * 0.05) + (idx * 0.05) }}
                   style={{ background: 'rgba(255, 255, 255, 0.03)', borderColor: 'rgba(142, 127, 255, 0.1)' }}
-                  whileHover={{ borderColor: borderColor, boxShadow: `0 0 10px ${borderColor}30`, scale: 1.02 }}
-                  className="p-3 laptop:p-4 rounded-xl border transition-all group flex items-center gap-3 cursor-pointer"
+                  whileHover={{ 
+                    borderColor: borderColor, 
+                    boxShadow: `0 0 12px ${borderColor}30`,
+                    scale: 1.03
+                  }}
+                  className="p-4 rounded-xl border transition-all group flex items-center gap-3 cursor-pointer"
                 >
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: borderColor }} />
-                  <span className="text-gray-300 group-hover:text-white text-sm laptop:text-base font-medium">
+                  <div className="w-2 h-2 rounded-full" style={{ backgroundColor: borderColor }} />
+                  <span className="text-gray-300 group-hover:text-white text-sm laptop:text-base font-semibold transition-colors">
                     {skill}
                   </span>
                 </motion.div>
