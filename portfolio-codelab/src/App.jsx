@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
-// Aapke saare components
+// Components
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -13,34 +13,38 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AdminPanel from './components/AdminPanel';
 
-// Ek naya function banate hain Router ke andar use karne ke liye
 function AppContent() {
   const location = useLocation();
-  
-  // Ye check karega ki hum admin page par hain ya nahi
   const isAdminPage = location.pathname === '/admin';
 
   return (
-    <div className="bg-[#0F0F0F] min-h-screen text-white">
-      {/* Agar admin page NAHI hai, tabhi Navbar dikhao */}
+    /* 🔥 MOST IMPORTANT FIX */
+    <div className="bg-[#0F0F0F] min-h-screen text-white overflow-x-hidden w-full">
+      
       {!isAdminPage && <Navbar />}
 
       <Routes>
-        {/* HOME PAGE ROUTE */}
-        <Route path="/" element={
-          <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <LearningJourney />
-            <AIQuote />
-            <Contact />
-            <Footer />
-          </div>
-        } />
+        {/* HOME PAGE */}
+        <Route
+          path="/"
+          element={
+            /* ❌ h-screen REMOVED
+               ❌ overflow-y-scroll REMOVED
+               ✅ natural scroll + snap works better */
+            <div className="w-full snap-y snap-mandatory scroll-smooth">
+              <section className="snap-start"><Hero /></section>
+              <section className="snap-start"><About /></section>
+              <section className="snap-start"><Skills /></section>
+              <section className="snap-start"><Projects /></section>
+              <section className="snap-start"><LearningJourney /></section>
+              <section className="snap-start"><AIQuote /></section>
+              <section className="snap-start"><Contact /></section>
+              <section className="snap-start"><Footer /></section>
+            </div>
+          }
+        />
 
-        {/* ADMIN PAGE ROUTE */}
+        {/* ADMIN */}
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </div>
