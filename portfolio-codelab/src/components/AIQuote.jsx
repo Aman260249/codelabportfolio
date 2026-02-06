@@ -6,7 +6,7 @@ const AIQuote = () => {
   const aiGradient = "linear-gradient(to right, #8E7FFF, #D8B4FE, #60A5FA)";
 
   return (
-    <section className="h-[60vh] w-full flex items-center justify-center px-6  laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-hidden">
+    <section className="pt-20 h-[60vh] w-full flex items-center justify-center px-6  laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-hidden">
       
       {/* Background Glow (Gemini Theme) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[200px] bg-blue-600/5 blur-[120px] rounded-full -z-0" />
