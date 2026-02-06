@@ -38,7 +38,7 @@ const Skills = () => {
         style={{ backgroundImage: textGradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
         className="text-4xl laptop:text-6xl font-extrabold mb-16 z-10"
       >
-        Skills
+        Technical Skills
       </motion.h2>
 
       {/* MAIN GLOWING BOX */}
