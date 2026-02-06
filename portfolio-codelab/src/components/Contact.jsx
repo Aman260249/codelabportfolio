@@ -29,7 +29,7 @@ const Contact = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/contact',
+        `${process.env.REACT_APP_BACKEND_URL}/api/contact`,
         formData
       );
 
