@@ -13,7 +13,7 @@ const AdminPanel = () => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/projects');
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/projects`);
       setProjects(res.data);
     } catch (err) { console.error("Error fetching projects"); }
   };
@@ -23,7 +23,7 @@ const AdminPanel = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const res = await axios.post('http://localhost:5000/api/login', loginData);
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, loginData);
         if(res.data.success) setIsLoggedIn(true);
     } catch (err) { alert("Wrong ID/Password Codelab!"); }
   };
@@ -31,7 +31,7 @@ const AdminPanel = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Delete kar dein?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/delete-project/${id}`);
+        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/delete-project/${id}`);
         alert("Deleted!");
         fetchProjects();
       } catch (err) { alert("Delete error!"); }
@@ -42,7 +42,7 @@ const AdminPanel = () => {
     e.preventDefault();
     try {
       const finalData = { ...projectData, images: projectData.images.split(',') };
-      await axios.post('http://localhost:5000/api/add-project', finalData);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/add-project`, finalData);
       alert("Added!");
       setProjectData({ title: '', category: '', tech: '', images: '', live: '', github: '' });
       fetchProjects();
