@@ -26,7 +26,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills"   className="pt-225 h-screen w-full flex flex-col items-center justify-center px-6 laptop:px-32 bg-[#0F0F0F] snap-start overflow-y-auto tablet:overflow-hidden relative">
+    <section id="skills"   className=" h-screen w-full flex flex-col items-center justify-center px-6 laptop:px-32 bg-[#0F0F0F] snap-start overflow-y-auto tablet:overflow-hidden relative">
       
       {/* Background Subtle Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#8E7FFF]/5 blur-[120px] rounded-full -z-0" />

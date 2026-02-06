@@ -7,7 +7,7 @@ const LearningJourney = () => {
   const neonColor = "#8E7FFF";
 
   return (
-    <section id="journey" className="pt-20 h-screen w-full flex items-center justify-center px-6 pt-6 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-hidden">
+    <section id="journey" className="h-screen w-full flex items-center justify-center px-6 pt-6 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-hidden">
       
       {/* Subtle Glow in Background */}
       <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-[#8E7FFF]/10 blur-[120px] rounded-full" />
