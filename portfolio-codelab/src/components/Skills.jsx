@@ -15,7 +15,7 @@ const Skills = () => {
 
   return (
     // min-h-screen + pt-28 for mobile top gap
-    <section id="skills" className="min-h-screen w-full flex flex-col items-center justify-start laptop:justify-center px-6 pt-28 pb-12 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-x-hidden">
+    <section id="skills" className="h-screen w-full flex flex-col items-center justify-start laptop:justify-center px-6 pt-28 pb-12 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-x-hidden">
       
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] laptop:w-[500px] h-[300px] laptop:h-[500px] bg-[#8E7FFF]/5 blur-[120px] rounded-full -z-0" />
 
