@@ -6,7 +6,7 @@ const About = () => {
   const textGradient = "linear-gradient(to right, #8B8BD8, #575762, #494972)";
 
   return (
-    <section id="about" className="h-screen w-full flex flex-col items-center justify-center px-6 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-hidden">
+    <section id="about" className="min-h-screen w-full flex flex-col items-center justify-center px-6 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-hidden">
       
       {/* Background Decorative Element (Optional Glow) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-600/10 blur-[120px] rounded-full -z-0" />

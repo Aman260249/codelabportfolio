@@ -15,7 +15,7 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="h-screen w-full flex flex-col tablet:flex-row items-center justify-between px-6 laptop:px-32 relative bg-[#0F0F0F] snap-start overflow-hidden">
+    <section id="hero" className="min-h-screen w-full flex flex-col tablet:flex-row items-center justify-between px-6 laptop:px-32 relative bg-[#0F0F0F] snap-start overflow-hidden">
       
       {/* LEFT SIDE: Text Content */}
       <motion.div 
