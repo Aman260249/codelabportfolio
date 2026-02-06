@@ -9,13 +9,20 @@ const AdminPanel = () => {
     title: '', category: '', tech: '', images: '', live: '', github: '' 
   });
 
+  // Direct Render URL to avoid 'undefined' issues on Vercel
+  const backendUrl = "https://codelabportfolio.onrender.com";
+
   const boxBg = "linear-gradient(135deg, #202021 0%, #2C2833 50%, #201731 100%)";
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/projects`);
-      setProjects(res.data);
-    } catch (err) { console.error("Error fetching projects"); }
+      const res = await axios.get(`${backendUrl}/api/projects`);
+      // Safety: ensure projects is always an array
+      setProjects(Array.isArray(res.data) ? res.data : []);
+    } catch (err) { 
+      console.error("Error fetching projects");
+      setProjects([]); // Fallback to empty array
+    }
   };
 
   useEffect(() => { if (isLoggedIn) fetchProjects(); }, [isLoggedIn]);
@@ -23,26 +30,21 @@ const AdminPanel = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        // Direct Render URL use karo taki 'undefined' error na aaye
-        const backendUrl = "https://codelabportfolio.onrender.com"; 
-        
         const res = await axios.post(`${backendUrl}/api/login`, loginData);
-        
         if(res.data.success) {
             setIsLoggedIn(true);
-            // Optional: Login success message
             console.log("Login Successful, Codelab!");
         }
     } catch (err) { 
         console.error("Login Error:", err);
         alert("Wrong ID/Password Codelab!"); 
     }
-};
+  };
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete kar dein?")) {
       try {
-        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/delete-project/${id}`);
+        await axios.delete(`${backendUrl}/api/delete-project/${id}`);
         alert("Deleted!");
         fetchProjects();
       } catch (err) { alert("Delete error!"); }
@@ -52,12 +54,13 @@ const AdminPanel = () => {
   const handleProjectSubmit = async (e) => {
     e.preventDefault();
     try {
+      // images ko array mein convert karna padega
       const finalData = { ...projectData, images: projectData.images.split(',') };
-      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/add-project`, finalData);
+      await axios.post(`${backendUrl}/api/add-project`, finalData);
       alert("Added!");
       setProjectData({ title: '', category: '', tech: '', images: '', live: '', github: '' });
       fetchProjects();
-    } catch (err) { alert("Error!"); }
+    } catch (err) { alert("Error adding project!"); }
   };
 
   if (!isLoggedIn) {
@@ -95,7 +98,7 @@ const AdminPanel = () => {
                 <input type="text" placeholder="Category" className="bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-[#8E7FFF]" onChange={(e) => setProjectData({...projectData, category: e.target.value})} value={projectData.category} required />
               </div>
               <input type="text" placeholder="Tech Stack (React, Node...)" className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-[#8E7FFF]" onChange={(e) => setProjectData({...projectData, tech: e.target.value})} value={projectData.tech} required />
-              <input type="text" placeholder="Image URL" className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-[#8E7FFF]" onChange={(e) => setProjectData({...projectData, images: e.target.value})} value={projectData.images} required />
+              <input type="text" placeholder="Image URL (Comma separated for multiple)" className="w-full bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-[#8E7FFF]" onChange={(e) => setProjectData({...projectData, images: e.target.value})} value={projectData.images} required />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="text" placeholder="Live Link" className="bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-[#8E7FFF]" onChange={(e) => setProjectData({...projectData, live: e.target.value})} value={projectData.live} />
                 <input type="text" placeholder="GitHub" className="bg-white/5 border border-white/10 p-4 rounded-xl text-white outline-none focus:border-[#8E7FFF]" onChange={(e) => setProjectData({...projectData, github: e.target.value})} value={projectData.github} />
@@ -108,12 +111,17 @@ const AdminPanel = () => {
           <div className="bg-[#1A1A1A] rounded-[2rem] p-8 border border-white/10 h-full max-h-[550px] flex flex-col">
             <h3 className="text-xl font-bold text-white mb-6 uppercase tracking-widest">Projects</h3>
             <div className="space-y-3 overflow-y-auto pr-2 custom-scrollbar">
-              {projects.map((p) => (
-                <div key={p._id} className="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/5 hover:border-[#8E7FFF50] transition-all group">
-                  <span className="text-white/80 text-sm truncate mr-2">{p.title}</span>
-                  <button onClick={() => handleDelete(p._id)} className="text-red-500 opacity-50 group-hover:opacity-100 transition-all text-[10px] font-bold uppercase">Delete</button>
-                </div>
-              ))}
+              {/* Added Safety Check here */}
+              {Array.isArray(projects) && projects.length > 0 ? (
+                projects.map((p) => (
+                  <div key={p._id} className="flex justify-between items-center p-4 bg-black/40 rounded-xl border border-white/5 hover:border-[#8E7FFF50] transition-all group">
+                    <span className="text-white/80 text-sm truncate mr-2">{p.title}</span>
+                    <button onClick={() => handleDelete(p._id)} className="text-red-500 opacity-50 group-hover:opacity-100 transition-all text-[10px] font-bold uppercase">Delete</button>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-600 text-xs text-center mt-10 uppercase tracking-widest">No projects found</p>
+              )}
             </div>
           </div>
 
