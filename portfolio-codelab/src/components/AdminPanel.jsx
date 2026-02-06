@@ -23,10 +23,21 @@ const AdminPanel = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, loginData);
-        if(res.data.success) setIsLoggedIn(true);
-    } catch (err) { alert("Wrong ID/Password Codelab!"); }
-  };
+        // Direct Render URL use karo taki 'undefined' error na aaye
+        const backendUrl = "https://codelabportfolio.onrender.com"; 
+        
+        const res = await axios.post(`${backendUrl}/api/login`, loginData);
+        
+        if(res.data.success) {
+            setIsLoggedIn(true);
+            // Optional: Login success message
+            console.log("Login Successful, Codelab!");
+        }
+    } catch (err) { 
+        console.error("Login Error:", err);
+        alert("Wrong ID/Password Codelab!"); 
+    }
+};
 
   const handleDelete = async (id) => {
     if (window.confirm("Delete kar dein?")) {
