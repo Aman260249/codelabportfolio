@@ -58,7 +58,7 @@ const Hero = () => {
 
           {/* Resume Download Button */}
           <motion.a 
-            href="/resume.pdf" // PDF file public folder mein honi chahiye
+            href="/Aman_Sharma_MERN_ATS_Resume_2.pdf" // PDF file public folder mein honi chahiye
             download="Aman_Resume.pdf" // Download hone par file ka naam
             whileHover={{ scale: 1.05 }} 
             className="px-10 py-4 border border-white/10 rounded-full text-white font-bold hover:bg-white/5 transition-all flex items-center justify-center"
