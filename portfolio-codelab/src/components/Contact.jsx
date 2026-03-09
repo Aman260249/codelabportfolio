@@ -79,10 +79,10 @@ const Contact = () => {
             <div className="space-y-8">
               <a href="mailto:your@gmail.com" className="flex items-center gap-5">
                 <FaEnvelope className="text-2xl text-[#8E7FFF]" />
-                <span className="text-gray-300 font-bold">Gmail</span>
+                <span className="text-gray-300 font-bold">aman26024@gmail.com</span>
               </a>
 
-              <a href="https://github.com" target="_blank" rel="noreferrer" className="flex items-center gap-5">
+              <a href="https://github.com/Aman260249" target="_blank" rel="noreferrer" className="flex items-center gap-5">
                 <FaGithub className="text-2xl text-[#8E7FFF]" />
                 <span className="text-gray-300 font-bold">GitHub</span>
               </a>
