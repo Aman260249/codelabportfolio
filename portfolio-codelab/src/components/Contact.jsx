@@ -87,7 +87,7 @@ const Contact = () => {
                 <span className="text-gray-300 font-bold">GitHub</span>
               </a>
 
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="flex items-center gap-5">
+              <a href="https://www.linkedin.com/in/aman-sharma-2b0183210" target="_blank" rel="noreferrer" className="flex items-center gap-5">
                 <FaLinkedin className="text-2xl text-[#8E7FFF]" />
                 <span className="text-gray-300 font-bold">LinkedIn</span>
               </a>
