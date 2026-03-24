@@ -43,34 +43,30 @@ const Projects = () => {
   }
 
   return (
-    <section
-      id="projects"
-      className="min-h-screen w-full py-24 px-5 sm:px-6 laptop:px-32 bg-[var(--color-bg)] snap-start"
-    >
-      {/* HEADING */}
+    <section id="projects" className="min-h-screen w-full py-20 px-4 md:px-10 lg:px-24 bg-[var(--color-bg)]">
+      
+      {/* HEADING - Scaled for devices */}
       <motion.h2
-        initial={{ opacity: 0, y: -30 }}
+        initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-4xl sm:text-5xl laptop:text-7xl font-extrabold text-center mb-16 text-gradient"
+        className="text-3xl md:text-5xl lg:text-6xl font-black text-center mb-12 text-gradient tracking-tighter"
       >
         Featured Projects
       </motion.h2>
 
       {/* TABS */}
-      <div className="flex flex-wrap justify-center gap-3 mb-16">
+      <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
         {['ALL', 'WEB', 'UI/UX'].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`
-              px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase
+              px-5 py-2 rounded-full text-[10px] md:text-xs font-bold tracking-widest uppercase
               transition-all duration-300 border
-              ${
-                activeTab === tab
-                  ? 'bg-[var(--color-accent)] text-black border-[var(--color-accent)] shadow-[0_0_20px_rgba(0,212,255,0.3)]'
-                  : 'text-[var(--color-muted)] border-white/10 hover:border-[var(--color-accent)] hover:text-[var(--color-text)]'
-              }
+              ${activeTab === tab
+                  ? 'bg-[var(--color-accent)] text-black border-[var(--color-accent)]'
+                  : 'text-[var(--color-muted)] border-white/10 hover:border-[var(--color-accent)]'}
             `}
           >
             {tab}
@@ -78,88 +74,88 @@ const Projects = () => {
         ))}
       </div>
 
-      {/* GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 laptop:grid-cols-3 gap-8">
-        <AnimatePresence>
+      {/* GRID - Optimized spacing */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <AnimatePresence mode="popLayout">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project) => (
               <motion.div
                 key={project._id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                whileHover={{ y: -6 }}
-                className="group rounded-3xl p-[1px] bg-gradient-to-br from-[var(--color-accent)]/30 to-transparent"
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                whileHover={{ y: -5 }}
+                className="flex flex-col h-full rounded-[2rem] p-[1px] bg-gradient-to-b from-white/10 to-transparent overflow-hidden"
               >
-                <div className="bg-[var(--color-card)] rounded-3xl p-5 h-full border border-white/5 hover:border-[var(--color-accent)]/40 transition">
+                <div className="bg-[var(--color-card)] rounded-[2rem] p-4 md:p-5 flex flex-col h-full border border-white/5 shadow-xl">
 
-                  {/* IMAGE */}
-                  <div className="relative h-56 w-full rounded-2xl overflow-hidden mb-5">
+                  {/* IMAGE - Height fixed for mobile vs laptop */}
+                  <div className="relative h-48 md:h-52 lg:h-56 w-full rounded-[1.5rem] overflow-hidden mb-4 shrink-0">
                     <img
                       src={project.images?.[0]}
                       alt={project.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
                     />
-
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-end p-4">
-                      <span className="text-xs bg-[var(--color-accent)] text-black px-3 py-1 rounded-full font-bold">
-                        View
-                      </span>
-                    </div>
                   </div>
 
-                  {/* TITLE */}
-                  <h3 className="text-xl font-bold text-[var(--color-text)] mb-1">
-                    {project.title}
-                  </h3>
+                  {/* CONTENT AREA - Auto grows */}
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="text-lg md:text-xl font-bold text-[var(--color-text)] mb-1 leading-tight">
+                      {project.title}
+                    </h3>
 
-                  {/* TECH */}
-                  <p className="text-[var(--color-muted)] text-sm mb-3">
-                    {project.tech}
-                  </p>
-
-                  {/* PROBLEM */}
-                  {project.problem && (
-                    <p className="text-xs text-[var(--color-muted)] mb-3 line-clamp-2">
-                      {project.problem}
+                    <p className="text-[var(--color-accent)] text-[10px] md:text-xs font-bold uppercase tracking-wider mb-2">
+                      {project.tech}
                     </p>
-                  )}
 
-                  {/* FEATURES */}
-                  {project.features?.length > 0 && (
-                    <ul className="text-xs text-[var(--color-muted)] space-y-1 mb-4">
-                      {project.features.slice(0, 3).map((f, i) => (
-                        <li key={i}>✔ {f}</li>
-                      ))}
-                    </ul>
-                  )}
+                    {project.problem && (
+                      <p className="text-xs text-[var(--color-muted)] mb-4 line-clamp-2 leading-relaxed">
+                        {project.problem}
+                      </p>
+                    )}
 
-                  {/* BUTTONS */}
-                  <div className="flex gap-3 mt-auto">
+                    {/* Features - Hidden or limited on mobile to save space */}
+                    {project.features?.length > 0 && (
+                      <div className="hidden sm:block mb-4">
+                        <ul className="text-[11px] text-[var(--color-muted)] space-y-1">
+                          {project.features.slice(0, 2).map((f, i) => (
+                            <li key={i} className="flex items-center gap-2">
+                              <span className="w-1 h-1 bg-[var(--color-accent)] rounded-full"></span>
+                              {f}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* BUTTONS - Stick to bottom */}
+                  <div className="flex gap-3 mt-auto pt-2">
                     <a
                       href={project.live}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex-1 h-11 flex items-center justify-center bg-[var(--color-accent)] text-black rounded-xl font-bold text-xs hover:scale-105 transition"
+                      className="flex-1 h-10 md:h-11 flex items-center justify-center bg-[var(--color-accent)] text-black rounded-xl font-bold text-[11px] uppercase tracking-tighter hover:brightness-110 transition"
                     >
-                      Live
+                      Live Demo
                     </a>
-
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex-1 h-11 flex items-center justify-center border border-[var(--color-accent)] text-[var(--color-text)] rounded-xl text-xs hover:bg-white/5 transition"
+                      className="flex-1 h-10 md:h-11 flex items-center justify-center border border-white/10 text-[var(--color-text)] rounded-xl font-bold text-[11px] uppercase tracking-tighter hover:bg-white/5 transition"
                     >
-                      GitHub
+                      Code
                     </a>
                   </div>
                 </div>
               </motion.div>
             ))
           ) : (
-            <p className="text-center col-span-full text-[var(--color-muted)]">
-              No Projects Found
-            </p>
+            <div className="col-span-full py-20 text-center">
+               <p className="text-[var(--color-muted)] font-medium">No Projects Found in this category.</p>
+            </div>
           )}
         </AnimatePresence>
       </div>

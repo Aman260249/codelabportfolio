@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 
 // Components
 import Navbar from './components/Navbar';
@@ -13,41 +14,73 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AdminPanel from './components/AdminPanel';
 
+// Loader + Intro
+import Loader from './components/Loader';
+import Intro from './components/Intro';
+
 function AppContent() {
   const location = useLocation();
   const isAdminPage = location.pathname === '/admin';
 
+  const [loading, setLoading] = useState(true);
+  const [intro, setIntro] = useState(false);
+
   return (
-    /* 🔥 MOST IMPORTANT FIX */
-    <div className="bg-[#0F0F0F] min-h-screen text-white overflow-x-hidden w-full">
-      
-      {!isAdminPage && <Navbar />}
+    <>
+      {/* 🔥 LOADER */}
+      <AnimatePresence>
+        {loading && (
+          <Loader
+            onFinish={() => {
+              setLoading(false);
+              setIntro(true);
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-      <Routes>
-        {/* HOME PAGE */}
-        <Route
-          path="/"
-          element={
-            /* ❌ h-screen REMOVED
-               ❌ overflow-y-scroll REMOVED
-               ✅ natural scroll + snap works better */
-            <div className="w-full snap-y snap-mandatory scroll-smooth">
-              <section className="snap-start"><Hero /></section>
-              <section className="snap-start"><About /></section>
-              <section className="snap-start"><Skills /></section>
-              <section className="snap-start"><Projects /></section>
-              <section className="snap-start"><LearningJourney /></section>
-              <section className="snap-start"><AIQuote /></section>
-              <section className="snap-start"><Contact /></section>
-              <section className="snap-start"><Footer /></section>
-            </div>
-          }
-        />
+      {/* 🔥 INTRO */}
+      <AnimatePresence>
+        {intro && (
+          <Intro
+            onFinish={() => setIntro(false)}
+          />
+        )}
+      </AnimatePresence>
 
-        {/* ADMIN */}
-        <Route path="/admin" element={<AdminPanel />} />
-      </Routes>
-    </div>
+      {/* 🔥 MAIN WEBSITE */}
+      {!loading && !intro && (
+        <div className="bg-[var(--color-bg)] min-h-screen text-[var(--color-text)] overflow-x-hidden w-full">
+
+          {!isAdminPage && <Navbar />}
+
+          <Routes>
+            {/* HOME */}
+            <Route
+              path="/"
+              element={
+                <div className="w-full scroll-smooth">
+
+                  <section><Hero /></section>
+                  <section><About /></section>
+                  <section><Skills /></section>
+                  <section><Projects /></section>
+                  <section><LearningJourney /></section>
+                  <section><AIQuote /></section>
+                  <section><Contact /></section>
+                  <section><Footer /></section>
+
+                </div>
+              }
+            />
+
+            {/* ADMIN */}
+            <Route path="/admin" element={<AdminPanel />} />
+
+          </Routes>
+        </div>
+      )}
+    </>
   );
 }
 
