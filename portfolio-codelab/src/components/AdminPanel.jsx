@@ -23,6 +23,14 @@ const AdminPanel = () => {
 
   const backendUrl = "https://codelabportfolio.onrender.com";
 
+  // 🔥 AUTO LOGIN
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const fetchProjects = async () => {
     try {
       const res = await axios.get(`${backendUrl}/api/projects`);
@@ -36,22 +44,37 @@ const AdminPanel = () => {
     if (isLoggedIn) fetchProjects();
   }, [isLoggedIn]);
 
+  // 🔐 LOGIN
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       const res = await axios.post(`${backendUrl}/api/login`, loginData);
-      if (res.data.success) setIsLoggedIn(true);
-    } catch {
-      alert("Login Failed");
+
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        setIsLoggedIn(true);
+      }
+
+    } catch (err) {
+      alert(err.response?.data?.message || "Login Failed");
     }
   };
 
+  // 🔐 DELETE (TOKEN)
   const handleDelete = async (id) => {
     if (!window.confirm("Delete project?")) return;
-    await axios.delete(`${backendUrl}/api/delete-project/${id}`);
+
+    await axios.delete(`${backendUrl}/api/delete-project/${id}`, {
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    });
+
     fetchProjects();
   };
 
+  // EDIT
   const handleEdit = (p) => {
     setIsEditing(true);
     setEditId(p._id);
@@ -68,6 +91,7 @@ const AdminPanel = () => {
     });
   };
 
+  // 🔐 ADD / UPDATE (TOKEN)
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -79,10 +103,18 @@ const AdminPanel = () => {
 
     try {
       if (isEditing) {
-        await axios.put(`${backendUrl}/api/update-project/${editId}`, finalData);
+        await axios.put(`${backendUrl}/api/update-project/${editId}`, finalData, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        });
         alert("Updated!");
       } else {
-        await axios.post(`${backendUrl}/api/add-project`, finalData);
+        await axios.post(`${backendUrl}/api/add-project`, finalData, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        });
         alert("Added!");
       }
 
@@ -107,12 +139,21 @@ const AdminPanel = () => {
     }
   };
 
+  // 🔥 LOGOUT
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
+
   // LOGIN UI
   if (!isLoggedIn) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[var(--color-bg)]">
         <form onSubmit={handleLogin} className="p-8 rounded-2xl bg-white/5 border border-[var(--color-accent)] w-full max-w-sm">
-          <h2 className="text-[var(--color-text)] text-2xl mb-6 font-bold">Admin Login</h2>
+
+          <h2 className="text-[var(--color-text)] text-2xl mb-6 font-bold text-center">
+            Admin Login
+          </h2>
 
           <input
             placeholder="Username"
@@ -127,15 +168,26 @@ const AdminPanel = () => {
             onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
           />
 
-          <button className="w-full bg-[var(--color-accent)] py-3 rounded-xl text-black font-bold">
+          {/* 🔥 BUTTON FIX */}
+          <button
+            className="
+              w-full py-3 rounded-xl font-bold text-black
+              bg-[var(--color-accent)]
+              transition-all duration-300
+              hover:scale-105
+              active:scale-95
+              hover:shadow-[0_0_20px_rgba(0,212,255,0.4)]
+            "
+          >
             Login
           </button>
+
         </form>
       </div>
     );
   }
 
-  // DASHBOARD UI
+  // DASHBOARD
   return (
     <div className="min-h-screen bg-[var(--color-bg)] p-6">
 
@@ -148,14 +200,13 @@ const AdminPanel = () => {
           </h2>
 
           <button
-            onClick={() => setIsLoggedIn(false)}
-            className="px-5 py-2 border border-red-500 text-red-500 rounded-xl"
+            onClick={handleLogout}
+            className="px-5 py-2 border border-red-500 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition"
           >
             Logout
           </button>
         </div>
 
-        {/* GRID */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {/* FORM */}
@@ -165,41 +216,17 @@ const AdminPanel = () => {
               {isEditing ? "Edit Project" : "Add Project"}
             </h3>
 
-            <input placeholder="Title" value={projectData.title}
-              onChange={(e) => setProjectData({ ...projectData, title: e.target.value })}
-              className="input" />
+            {["title","category","tech","images","live","github","problem","features"].map((field) => (
+              <input
+                key={field}
+                placeholder={field}
+                value={projectData[field]}
+                onChange={(e) => setProjectData({ ...projectData, [field]: e.target.value })}
+                className="w-full p-3 bg-transparent border border-white/10 rounded-xl text-[var(--color-text)]"
+              />
+            ))}
 
-            <input placeholder="Category" value={projectData.category}
-              onChange={(e) => setProjectData({ ...projectData, category: e.target.value })}
-              className="input" />
-
-            <input placeholder="Tech" value={projectData.tech}
-              onChange={(e) => setProjectData({ ...projectData, tech: e.target.value })}
-              className="input" />
-
-            <input placeholder="Images (comma)" value={projectData.images}
-              onChange={(e) => setProjectData({ ...projectData, images: e.target.value })}
-              className="input" />
-
-            <input placeholder="Live Link" value={projectData.live}
-              onChange={(e) => setProjectData({ ...projectData, live: e.target.value })}
-              className="input" />
-
-            <input placeholder="GitHub" value={projectData.github}
-              onChange={(e) => setProjectData({ ...projectData, github: e.target.value })}
-              className="input" />
-
-            <textarea placeholder="Problem"
-              value={projectData.problem}
-              onChange={(e) => setProjectData({ ...projectData, problem: e.target.value })}
-              className="input" />
-
-            <input placeholder="Features (comma)"
-              value={projectData.features}
-              onChange={(e) => setProjectData({ ...projectData, features: e.target.value })}
-              className="input" />
-
-            <button className="w-full bg-[var(--color-accent)] py-3 rounded-xl text-black font-bold">
+            <button className="w-full bg-[var(--color-accent)] py-3 rounded-xl text-black font-bold hover:scale-105 transition">
               {isEditing ? "Update" : "Add"}
             </button>
 
@@ -226,7 +253,6 @@ const AdminPanel = () => {
         </div>
 
       </div>
-
     </div>
   );
 };
