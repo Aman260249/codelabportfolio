@@ -126,6 +126,14 @@ router.delete('/delete-project/:id', auth, async (req, res) => {
   }
 });
 
+router.put('/update-project/:id', auth, async (req, res) => {
+  try {
+    await Project.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ success: true });
+  } catch {
+    res.status(500).json({ message: "Update error" });
+  }
+});
 
 // ======================
 // 📩 CONTACT
