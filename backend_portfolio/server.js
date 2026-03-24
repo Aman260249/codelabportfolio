@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-    origin: 'https://codelabportfolio-plum.vercel.app', // Apna Vercel link yahan dalo
+    origin: ['https://codelabportfolio-plum.vercel.app',"http://localhost:5173"],// Apna Vercel link yahan dalo
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
