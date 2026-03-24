@@ -2,78 +2,150 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const LearningJourney = () => {
-  const mernGradient = "linear-gradient(to right, #8B8BD8, #575762, #494972)";
-  const cardBg = "linear-gradient(135deg, #202021 0%, #2C2833 50%, #201731 100%)";
-  const neonColor = "#8E7FFF";
+
+  const steps = [
+    {
+      year: "2023",
+      text: "Started learning JavaScript & Web Development fundamentals"
+    },
+    {
+      year: "2024",
+      text: "Mastered MERN Stack (MongoDB, Express, React, Node.js)"
+    },
+    {
+      year: "2024",
+      text: "Built real-world projects including dashboards, authentication & APIs"
+    },
+    {
+      year: "2025",
+      text: "Worked with Firebase & Supabase for scalable backend solutions"
+    },
+    {
+      year: "2025+",
+      text: "Continuously improving system design, UI/UX & performance"
+    }
+  ];
 
   return (
-    // min-h-screen + pt-32 for mobile gap
-    <section id="journey" className="min-h-screen w-full flex items-center justify-center px-6 pt-32 pb-16 laptop:px-32 bg-[#0F0F0F] snap-start relative overflow-hidden">
-      
-      <div className="absolute top-1/2 left-0 w-[200px] laptop:w-[300px] h-[200px] laptop:h-[300px] bg-[#8E7FFF]/10 blur-[100px] rounded-full" />
+    <section
+      id="journey"
+      className="relative w-full min-h-screen flex items-center justify-center px-5 md:px-10 py-24 bg-[var(--color-bg)] overflow-hidden"
+    >
 
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
-        style={{ 
-          background: cardBg, 
-          borderColor: neonColor,
-          boxShadow: `0 0 30px ${neonColor}10` 
-        }}
-        className="w-full max-w-6xl border-2 rounded-[2rem] laptop:rounded-[2.5rem] p-8 laptop:p-20 flex flex-col laptop:flex-row items-start laptop:items-center gap-10 laptop:gap-20"
-      >
-        
-        {/* Left Side: Heading */}
-        <div className="w-full laptop:w-1/3">
-          <motion.h2 
-            initial={{ x: -30, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            className="text-4xl laptop:text-7xl font-black text-white leading-tight tracking-tighter"
+      {/* GLOW BACKGROUND */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[var(--color-accent)]/10 blur-[120px] rounded-full" />
+
+      <div className="max-w-6xl w-full flex flex-col lg:flex-row gap-12">
+
+        {/* LEFT SIDE */}
+        <div className="lg:w-1/3 space-y-6">
+          
+          <motion.h2
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="text-4xl md:text-6xl font-[var(--font-heading)] text-[var(--color-text)] leading-tight"
           >
             Learning <br />
-            <span style={{ backgroundImage: mernGradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Journey
-            </span>
+            <span className="text-[var(--color-accent)]">Journey</span>
           </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="text-[var(--color-muted)] text-sm md:text-base"
+          >
+            From curiosity to building real-world full-stack applications.
+          </motion.p>
+
+          {/* BADGES */}
+          <div className="flex flex-wrap gap-2">
+            {["Self-Taught", "Fast Learner", "Problem Solver"].map((b, i) => (
+              <span key={i} className="px-3 py-1 text-xs rounded-full border border-[var(--color-accent)] text-[var(--color-accent)]">
+                {b}
+              </span>
+            ))}
+          </div>
+
         </div>
 
-        {/* Right Side: Content */}
-        <div className="w-full laptop:w-2/3 space-y-6 laptop:space-y-8">
-          <ul className="space-y-4 text-gray-300 text-base laptop:text-xl font-medium">
-            {[
-              "Started JavaScript & Web Development",
-              "Learned MERN Stack & UI/UX basics",
-              "Built 5+ full-stack projects using MERN",
-              "Worked with Firebase & Supabase in real projects"
-            ].map((item, index) => (
-              <motion.li 
-                key={index}
-                initial={{ x: 20, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.2 + (index * 0.1) }}
-                className="flex items-start gap-3"
-              >
-                <span className="text-[#8E7FFF] font-bold">•</span>
-                {item}
-              </motion.li>
-            ))}
-          </ul>
+        {/* RIGHT SIDE TIMELINE */}
+        <div className="lg:w-2/3 relative pl-6 md:pl-10">
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="pt-6 border-t border-white/10"
-          >
-            <p className="text-gray-400 italic text-sm laptop:text-lg leading-relaxed">
-              "I am a <span className="text-white font-bold">self-taught developer</span> who mastered the MERN stack through dedicated learning on <span className="text-[#FF0000] font-bold">YouTube</span>. 
-              Along this path, I've earned <span className="text-white font-bold">certifications</span> that validate my technical expertise."
-            </p>
-          </motion.div>
+  {/* LINE */}
+  <div className="absolute left-2 md:left-4 top-0 bottom-0 w-[2px] bg-[var(--color-accent)]/20" />
+
+  <div className="space-y-10">
+
+    {steps.map((step, index) => (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, x: 40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.1 }}
+        className="relative pl-10 md:pl-14 group"
+      >
+
+        {/* DOT */}
+        <div className="absolute left-0 md:left-2 top-2 w-4 h-4 rounded-full bg-[var(--color-accent)] shadow-[0_0_10px_var(--color-accent)]" />
+
+        {/* CARD */}
+        <div className="
+          bg-white/5
+          backdrop-blur-xl
+          border border-white/10
+          rounded-2xl
+          p-5
+          transition-all duration-500
+          group-hover:border-[var(--color-accent)]
+          group-hover:shadow-[0_0_20px_rgba(0,212,255,0.2)]
+        ">
+
+          <p className="text-xs text-[var(--color-accent)] font-bold mb-1">
+            {step.year}
+          </p>
+
+          <p className="text-[var(--color-text)] text-sm md:text-base leading-relaxed">
+            {step.text}
+          </p>
+
         </div>
 
       </motion.div>
+    ))}
+
+  </div>
+
+  {/* FINAL TEXT (FIXED GAP) */}
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    className="mt-14 ml-6 md:ml-10 p-6 rounded-2xl bg-white/5 border border-white/10"
+  >
+    <p className="text-[var(--color-muted)] text-sm md:text-base leading-relaxed">
+      I am a <span className="text-[var(--color-text)] font-semibold">self-taught MERN Stack Developer</span> who learned development through 
+      <span className="text-red-500 font-semibold"> YouTube</span> and hands-on practice.
+      <br /><br />
+      Instead of just watching tutorials, I focused on building real-world projects, solving problems, and improving every day.
+    </p>
+  </motion.div>
+
+  {/* STATS (FIXED GAP) */}
+  <div className="mt-10 ml-6 md:ml-10 grid grid-cols-2 sm:grid-cols-4 gap-4">
+    {[
+      "5+ Projects",
+      "Auth Systems",
+      "REST APIs",
+      "Responsive UI"
+    ].map((s, i) => (
+      <div key={i} className="text-center p-4 rounded-xl bg-white/5 border border-white/10 text-xs text-[var(--color-muted)]">
+        {s}
+      </div>
+    ))}
+  </div>
+
+</div>
+
+      </div>
     </section>
   );
 };

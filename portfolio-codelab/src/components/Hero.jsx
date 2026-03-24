@@ -1,91 +1,146 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import myPhoto from '../assets/my-photo.png'; 
+import myPhoto from '../assets/my-photo.png';
 
 const Hero = () => {
-  const mernGradient = "linear-gradient(to right, #8B8BD8, #575762, #494972)";
-  const btnGradient = "linear-gradient(to right, #202021, #2C2833, #201731)";
 
-  // View Work function: Smooth scroll to Projects section
   const scrollToProjects = () => {
-    const projectsSection = document.getElementById('projects');
-    if (projectsSection) {
-      projectsSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    const el = document.getElementById('projects');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="hero" className="min-h-screen w-full flex flex-col tablet:flex-row items-center justify-between px-6 laptop:px-32 relative bg-[#0F0F0F] snap-start overflow-hidden">
-      
-      {/* LEFT SIDE: Text Content */}
-      <motion.div 
-        initial={{ opacity: 0, y: 80 }} 
-        whileInView={{ opacity: 1, y: 0 }} 
-        viewport={{ once: false }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="flex-1 z-10 flex flex-col justify-center text-center tablet:text-left h-full pt-20 tablet:pt-0"
-      >
-        <p className="text-gray-400 text-xl laptop:text-2xl mb-2">Hi, I'm Aman 👋</p>
+    <section 
+      id="hero" 
+      className="relative min-h-screen w-full flex items-center justify-center px-6 md:px-16 bg-[var(--color-bg)] overflow-hidden"
+    >
 
-        <div className="relative overflow-hidden">
-          <h1 className="text-5xl laptop:text-8xl font-extrabold leading-tight">
-            <span 
-              style={{ backgroundImage: mernGradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
-            >
-              MERN Stack
+      {/* 🔥 BACKGROUND GLOW */}
+      <div className="absolute top-[-100px] left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[var(--color-accent)]/10 blur-[120px] rounded-full" />
+
+      {/* MAIN CONTAINER */}
+      <div className="w-full max-w-[1200px] grid md:grid-cols-2 gap-12 items-center">
+
+        {/* LEFT CONTENT */}
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col text-center md:text-left"
+        >
+
+          {/* INTRO */}
+          <p className="text-[var(--color-muted)] text-sm md:text-base mb-3">
+            Hi, I'm Aman 👋
+          </p>
+
+          {/* HEADING */}
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight text-[var(--color-text)]">
+            MERN Stack
+            <br />
+            <span className="text-gradient">
+              Developer
             </span>
           </h1>
-        </div>
 
-        <h1 className="text-5xl laptop:text-8xl font-extrabold text-white">Developer</h1>
+          {/* MAIN LINE */}
+          <p className="mt-6 text-[var(--color-muted)] max-w-xl text-base md:text-lg leading-relaxed">
+            MERN Stack Developer building scalable and user-focused web applications
+          </p>
 
-        <p className="text-gray-400 mt-6 max-w-lg text-lg tablet:text-xl">
-          I build full-stack web applications using MongoDB, Express, React & Node.js 
-          with clean UI and scalable backend.
-        </p>
+          {/* SUB INFO */}
+          <p className="mt-3 text-[var(--color-muted)] text-sm">
+            2+ Real-world projects | Authentication | Dashboard | API Integration | Landing Pages
+          </p>
 
-        {/* Buttons */}
-        <div className="flex gap-4 mt-10 justify-center tablet:justify-start">
-          {/* View Work Button */}
-          <motion.button 
-            onClick={scrollToProjects}
-            whileHover={{ scale: 1.05 }} 
-            style={{ background: btnGradient }} 
-            className="px-10 py-4 border border-[#8E7FFF] rounded-full text-white font-bold shadow-lg shadow-purple-500/10"
-          >
-            View Work
-          </motion.button>
+          {/* CTA BUTTONS */}
+          <div className="flex flex-col sm:flex-row gap-4 mt-8 justify-center md:justify-start">
 
-          {/* Resume Download Button */}
-          <motion.a 
-            href="/Aman_Sharma_MERN_ATS_Resume_2.pdf" // PDF file public folder mein honi chahiye
-            download="Aman_Resume.pdf" // Download hone par file ka naam
-            whileHover={{ scale: 1.05 }} 
-            className="px-10 py-4 border border-white/10 rounded-full text-white font-bold hover:bg-white/5 transition-all flex items-center justify-center"
-          >
-            Resume
-          </motion.a>
-        </div>
-      </motion.div>
+            <motion.button
+              onClick={scrollToProjects}
+              whileHover={{ scale: 1.05 }}
+              className="
+                px-6 py-3
+                rounded-xl
+                bg-[var(--color-accent)]
+                text-black
+                font-semibold
+                shadow-[0_0_20px_rgba(0,212,255,0.4)]
+                transition-all
+              "
+            >
+              View Projects
+            </motion.button>
 
-      {/* RIGHT SIDE: Image Content */}
-      <motion.div 
-        initial={{ opacity: 0, y: 150 }} 
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false }}
-        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }} 
-        className="flex-1 relative flex items-end justify-center tablet:justify-end h-full pt-10"
-      >
-        <img 
-          src={myPhoto} 
-          alt="Aman" 
-          className="w-[300px] tablet:w-[450px] laptop:w-[650px] object-contain select-none"
-          style={{
-            maskImage: 'linear-gradient(to bottom, black 70%, transparent 98%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 98%)'
-          }}
-        />
-      </motion.div>
+            <motion.a
+              href="/Aman_Sharma_MERN_ATS_Resume_2.pdf"
+              download
+              whileHover={{ scale: 1.05 }}
+              className="
+                px-6 py-3
+                rounded-xl
+                border border-[var(--color-accent)]
+                text-[var(--color-text)]
+                font-semibold
+                hover:bg-white/5
+                transition-all
+                text-center
+              "
+            >
+              Download Resume
+            </motion.a>
+
+          </div>
+
+          {/* TECH STACK CHIPS */}
+          <div className="flex flex-wrap gap-3 mt-8 justify-center md:justify-start">
+            {["React", "Node", "MongoDB", "Express"].map((tech) => (
+              <span 
+                key={tech}
+                className="
+                  px-3 py-1
+                  text-sm
+                  bg-white/5
+                  border border-white/10
+                  rounded-full
+                  text-[var(--color-muted)]
+                "
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+        </motion.div>
+
+        {/* RIGHT IMAGE */}
+        <motion.div
+          initial={{ opacity: 0, y: 80 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="flex justify-center md:justify-end"
+        >
+          <img
+            src={myPhoto}
+            alt="Aman"
+            className="
+              w-[260px] sm:w-[320px] md:w-[420px] lg:w-[500px]
+              object-contain
+              select-none
+            "
+            style={{
+              maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)'
+            }}
+          />
+        </motion.div>
+
+      </div>
+
+      {/* 🔥 SCROLL TEXT */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[var(--color-muted)] text-sm">
+        Scroll ↓
+      </div>
 
     </section>
   );

@@ -1,108 +1,132 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { FaReact, FaNodeJs, FaHtml5, FaCss3Alt, FaFigma, FaGitAlt } from "react-icons/fa";
+import { SiMongodb, SiJavascript, SiExpress, SiTailwindcss, SiPostman, SiFirebase } from "react-icons/si";
 
 const Skills = () => {
-  const textGradient = "linear-gradient(to right, #8B8BD8, #575762, #494972)";
-  const boxGradient = "linear-gradient(to right, #202021, #2C2833, #201731)";
-  const borderColor = "#8E7FFF";
 
-  const skillData = [
-    { category: "Frontend", skills: ["React.js", "JavaScript", "HTML5 / CSS3", "Tailwind CSS"] },
-    { category: "Backend", skills: ["Node.js", "Express.js", "REST APIs", "JWT Auth"] },
-    { category: "Database", skills: ["MongoDB", "Firebase", "Supabase", "PostgreSQL"] },
-    { category: "Design & Tools", skills: ["Figma", "Photoshop", "Git & GitHub", "Postman"] }
+  const skillCategories = [
+    {
+      title: "Frontend",
+      skills: [
+        { name: "React.js", icon: <FaReact /> },
+        { name: "JavaScript", icon: <SiJavascript /> },
+        { name: "Tailwind", icon: <SiTailwindcss /> },
+        { name: "HTML/CSS", icon: <FaHtml5 /> },
+      ]
+    },
+    {
+      title: "Backend",
+      skills: [
+        { name: "Node.js", icon: <FaNodeJs /> },
+        { name: "Express", icon: <SiExpress /> },
+        { name: "MongoDB", icon: <SiMongodb /> },
+        { name: "Firebase", icon: <SiFirebase /> },
+      ]
+    },
+    {
+      title: "Tools",
+      skills: [
+        { name: "Git", icon: <FaGitAlt /> },
+        { name: "Figma", icon: <FaFigma /> },
+        { name: "Postman", icon: <SiPostman /> },
+      ]
+    }
   ];
 
   return (
-    <section
+    <section 
       id="skills"
-      className="
-        min-h-screen w-full
-        flex flex-col items-center justify-center
-        px-5 sm:px-6 laptop:px-32
-        bg-[#0F0F0F]
-        snap-start
-        overflow-x-hidden
-        relative
-      "
+      className="relative w-full min-h-screen py-20 flex flex-col items-center justify-center px-4 md:px-10 bg-[var(--color-bg)] overflow-hidden"
     >
-      {/* Glow */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[420px] h-[420px] bg-[#8E7FFF]/5 blur-[120px] rounded-full" />
+
+      {/* GLOW */}
+      <div className="absolute top-1/4 -left-20 w-64 md:w-96 h-64 md:h-96 bg-[var(--color-accent)]/10 blur-[120px] rounded-full" />
+      <div className="absolute bottom-1/4 -right-20 w-64 md:w-96 h-64 md:h-96 bg-[var(--color-accent2)]/10 blur-[120px] rounded-full" />
+
+      {/* HEADER */}
+      <div className="text-center mb-16 relative z-10">
+        <motion.p 
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-[var(--color-accent)] text-xs font-bold uppercase tracking-[0.4em] mb-4"
+        >
+          My Capabilities
+        </motion.p>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-6xl font-[var(--font-heading)] text-[var(--color-text)]"
+        >
+          Tech Stack<span className="text-[var(--color-accent)]">.</span>
+        </motion.h2>
       </div>
 
-      {/* Heading */}
-      <motion.h2
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        style={{ backgroundImage: textGradient, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
-        className="text-4xl laptop:text-6xl font-extrabold mb-12 z-10 text-center"
-      >
-        Technical Skills
-      </motion.h2>
+      {/* GRID */}
+      <div className="w-full max-w-[1200px] flex flex-col gap-12 relative z-10">
+        {skillCategories.map((category, catIndex) => (
+          <div key={category.title} className="flex flex-col gap-6">
 
-      {/* Box */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.97 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        style={{ background: boxGradient, borderColor, boxShadow: `0 0 25px ${borderColor}20` }}
-        className="
-          w-full max-w-[1200px]
-          border-2 rounded-3xl
-          p-5 sm:p-6 laptop:p-12
-          relative z-10
-          overflow-hidden
-        "
-      >
-        {/* Desktop Tabs */}
-        <div className="hidden tablet:flex justify-around mb-10">
-          {skillData.map(item => (
-            <motion.div
-              key={item.category}
-              whileHover={{ y: -4 }}
-              style={{ background: boxGradient, borderColor }}
-              className="px-6 py-2 border-2 rounded-full text-sm font-bold text-white shadow-[0_0_15px_rgba(142,127,255,0.4)]"
-            >
-              {item.category}
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-4 gap-6">
-          {skillData.map((group, groupIdx) => (
-            <div key={group.category} className="space-y-4">
-              {/* Mobile Label */}
-              <div
-                className="tablet:hidden text-white font-bold uppercase tracking-widest border-b-2 pb-1"
-                style={{ borderColor }}
-              >
-                {group.category}
-              </div>
-
-              {group.skills.map((skill, idx) => (
+            <h3 className="text-sm md:text-base font-bold text-[var(--color-muted)] uppercase tracking-widest ml-2 font-[var(--font-heading)]">
+              {category.title}
+            </h3>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4">
+              {category.skills.map((skill, i) => (
                 <motion.div
-                  key={skill}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: groupIdx * 0.1 + idx * 0.05 }}
-                  style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(142,127,255,0.2)' }}
-                  whileHover={{ borderColor, boxShadow: `0 0 15px ${borderColor}40`, scale: 1.02 }}
-                  className="p-4 rounded-xl border flex items-center gap-3"
+                  key={skill.name}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  whileHover={{ y: -6 }}
+                  transition={{ delay: i * 0.05 + catIndex * 0.1 }}
+                  className="
+                    group relative
+                    flex items-center gap-3 md:gap-4
+                    p-3 md:p-5
+                    rounded-2xl md:rounded-[2rem]
+                    bg-white/5
+                    backdrop-blur-xl
+                    border border-white/10
+                    hover:border-[var(--color-accent)]
+                    transition-all duration-500
+                  "
                 >
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: borderColor }} />
-                  <span className="text-gray-300 group-hover:text-white font-medium">
-                    {skill}
-                  </span>
+
+                  {/* Hover Glow */}
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-accent)_0%,transparent_70%)] opacity-0 group-hover:opacity-10 transition rounded-[2rem]" />
+
+                  {/* ICON */}
+                  <div className="text-2xl md:text-3xl text-[var(--color-accent)] transition-transform duration-500 group-hover:scale-110">
+                    {skill.icon}
+                  </div>
+
+                  {/* TEXT */}
+                  <div className="flex flex-col">
+                    <span className="text-[10px] md:text-xs text-[var(--color-muted)] uppercase tracking-widest">
+                     
+                    </span>
+                    <p className="text-[var(--color-text)] text-sm md:text-base font-semibold font-[var(--font-body)]">
+                      {skill.name}
+                    </p>
+                  </div>
+
                 </motion.div>
               ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
+
+      {/* BOTTOM TAG */}
+      <motion.div 
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 4, repeat: Infinity }}
+        className="mt-20 px-6 py-2 rounded-full bg-white/5 border border-white/10 text-xs text-[var(--color-muted)] tracking-widest font-[var(--font-body)]"
+      >
+        ALWAYS LEARNING NEW TECH
       </motion.div>
+
     </section>
   );
 };

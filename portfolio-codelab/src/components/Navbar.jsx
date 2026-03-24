@@ -1,226 +1,188 @@
-// import React, { useState } from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-// import { Menu, X } from 'lucide-react';
-// import logo from '../assets/logo.png'; 
-
-// const Navbar = () => {
-//   const [isOpen, setIsOpen] = useState(false);
-
-//   const menuItems = [
-//     { name: 'Projects', href: '#projects' },
-//     { name: 'Skills', href: '#skills' },
-//     { name: 'Contact', href: '#contact' },
-//   ];
-
-//   return (
-//     <div className="fixed top-4 w-full z-50 px-4 flex justify-center">
-//       {/* Desktop & Base Nav */}
-//       <motion.nav 
-//         style={{ background: 'linear-gradient(to right, #202021, #2c2833, #201731)' }}
-//         className="h-16 tablet:h-20 w-full max-w-[1200px] rounded-2xl border border-white/10 backdrop-blur-md flex items-center justify-between px-6 shadow-2xl relative"
-//       >
-//         <img src={logo} alt="CodeLabBro" style={{ height: '130px', width: 'auto' }} className="h-8 tablet:h-10 w-auto" />
-
-//         <div className="hidden tablet:flex items-center gap-12">
-//           {menuItems.map((item) => (
-//             <a key={item.name} href={item.href} className="text-gray-300 hover:text-purple-400 font-medium transition-colors text-sm tracking-widest uppercase">
-//               {item.name}
-//             </a>
-//           ))}
-//         </div>
-
-//         <button onClick={() => setIsOpen(!isOpen)} className="tablet:hidden text-white p-2">
-//           {isOpen ? <X size={28} /> : <Menu size={28} />}
-//         </button>
-
-//         {/* --- MOBILE GLASS MENU START --- */}
-//         <AnimatePresence>
-//           {isOpen && (
-//             <motion.div
-//               initial={{ opacity: 0, y: 10, scale: 0.95 }}
-//               animate={{ opacity: 1, y: 0, scale: 1 }}
-//               exit={{ opacity: 0, y: 10, scale: 0.95 }}
-//               className="absolute top-20 left-0 w-full tablet:hidden p-[1px] rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(168,85,247,0.2)]"
-//               // Gradient Border Effect using padding + background
-//               style={{ background: 'linear-gradient(135deg, #6D28D9 0%, #EC4899 100%)' }}
-//             >
-//               <div className="bg-[#0F0F0F]/90 backdrop-blur-xl rounded-2xl p-8 flex flex-col gap-8 items-center">
-//                 {menuItems.map((item, i) => (
-//                   <motion.a 
-//                     initial={{ opacity: 0, x: -10 }}
-//                     animate={{ opacity: 1, x: 0 }}
-//                     transition={{ delay: i * 0.1 }}
-//                     key={item.name} 
-//                     href={item.href}
-//                     onClick={() => setIsOpen(false)}
-//                     className="text-2xl font-bold text-gray-100 active:text-purple-500"
-//                   >
-//                     {item.name}
-//                   </motion.a>
-//                 ))}
-//               </div>
-//             </motion.div>
-//           )}
-//         </AnimatePresence>
-//         {/* --- MOBILE GLASS MENU END --- */}
-//       </motion.nav>
-//     </div>
-//   );
-// };
-
-// export default Navbar;
-
-
-
-
-
-
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import logo from "../assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // ✅ HOME ADDED
-  const menuItems = [
-    { name: "Home", href: "#hero" },
-    { name: "Projects", href: "#projects" },
-    { name: "Skills", href: "#skills" },
-    { name: "Contact", href: "#contact" },
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: "Home", id: "hero" },
+    { name: "Projects", id: "projects" },
+    { name: "Skills", id: "skills" },
+    { name: "Contact", id: "contact" }
   ];
 
+  const handleScrollTo = (id) => {
+    setIsOpen(false);
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="fixed top-4 w-full z-50 px-4 flex justify-center">
+    <div className="fixed top-4 left-0 right-0 z-[100] flex justify-center px-4">
+      
+      {/* 🔥 FLOATING GLASS NAV */}
       <motion.nav
-        initial={{ y: -20, opacity: 0 }}
+        initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="
-          relative
-          h-16 tablet:h-20
+        className={`
           w-full max-w-[1200px]
-          rounded-2xl
-          border border-white/10
-          backdrop-blur-xl
-          shadow-[0_20px_50px_rgba(0,0,0,0.6)]
+          h-14 md:h-16
           flex items-center justify-between
-          px-6 tablet:px-10
-        "
-        style={{
-          background:
-            "linear-gradient(90deg, #202021 0%, #2C2833 50%, #201731 100%)",
-        }}
+          px-5 md:px-8
+          rounded-2xl
+          border transition-all duration-500
+          ${scrolled 
+            ? "bg-[rgba(255,255,255,0.05)] backdrop-blur-xl border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.5)]" 
+            : "bg-transparent border-transparent"}
+        `}
       >
-        {/* LOGO */}
-        <div className="flex items-center">
+
+        {/* 🔥 LOGO (PERFECT SIZE FIXED) */}
+        <div 
+          onClick={() => handleScrollTo("hero")}
+          className="flex items-center cursor-pointer"
+        >
           <img
             src={logo}
-            alt="CodeLabBro"
-            style={{ height: '100px', width: 'auto' }}
-            className="
-              h-8 tablet:h-10
-              w-auto
-              object-contain
-              scale-125
-              origin-left
-              drop-shadow-[0_0_20px_rgba(142,127,255,0.35)]
-            "
+            alt="logo"
+            className="h-8 md:h-9 w-auto object-contain"
           />
         </div>
 
-        {/* DESKTOP MENU */}
-        <div className="hidden tablet:flex items-center gap-14">
-          {menuItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
+        {/* 🔥 DESKTOP MENU */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => handleScrollTo(link.id)}
               className="
-                relative
-                text-gray-300
-                text-xs
-                font-semibold
+                text-[11px]
+                font-medium
                 uppercase
-                tracking-[0.25em]
+                tracking-[0.2em]
+                text-[var(--color-muted)]
+                hover:text-[var(--color-accent)]
                 transition-all
-                hover:text-[#8E7FFF]
-                after:absolute after:-bottom-2 after:left-0
-                after:h-[1px] after:w-0
-                after:bg-[#8E7FFF]
-                after:transition-all
-                hover:after:w-full
               "
             >
-              {item.name}
-            </a>
+              {link.name}
+            </button>
           ))}
+
+          {/* CTA BUTTON */}
+          <button
+            onClick={() => handleScrollTo("contact")}
+            className="
+              px-5 py-2
+              rounded-full
+              bg-[var(--color-accent)]
+              text-black
+              text-[11px]
+              font-bold
+              uppercase
+              tracking-widest
+              hover:scale-105 active:scale-95
+              transition-all
+              shadow-[0_0_20px_rgba(0,212,255,0.4)]
+            "
+          >
+            Hire Me
+          </button>
         </div>
 
-        {/* MOBILE TOGGLE */}
+        {/* 🔥 MOBILE BUTTON */}
         <button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => setIsOpen(true)}
           className="
-            tablet:hidden
-            text-white
-            p-2
-            rounded-xl
-            bg-white/5
+            md:hidden
+            flex items-center gap-2
+            px-3 py-1.5
+            rounded-full
             border border-white/10
+            bg-white/5
           "
         >
-          {isOpen ? <X size={26} /> : <Menu size={26} />}
+          <span className="text-[10px] font-bold tracking-widest">Menu</span>
+          <Menu size={18} className="text-[var(--color-accent)]" />
         </button>
 
-        {/* MOBILE MENU */}
+        {/* 🔥 FULLSCREEN MOBILE MENU */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              transition={{ duration: 0.25 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="
-                absolute
-                top-[88px]
-                left-0
-                w-full
-                tablet:hidden
-                p-[1px]
-                rounded-2xl
-                shadow-[0_0_30px_rgba(142,127,255,0.25)]
+                fixed inset-0
+                bg-[var(--color-bg)]
+                z-[200]
+                flex flex-col
+                p-6
               "
-              style={{
-                background:
-                  "linear-gradient(135deg, #8E7FFF 0%, #EC4899 100%)",
-              }}
             >
-              <div className="bg-[#0F0F0F]/95 backdrop-blur-2xl rounded-2xl p-8 flex flex-col items-center gap-8">
-                {menuItems.map((item, i) => (
-                  <motion.a
-                    key={item.name}
-                    href={item.href}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                    onClick={() => setIsOpen(false)}
+
+              {/* TOP BAR */}
+              <div className="flex justify-between items-center mb-12">
+                <img src={logo} className="h-8" />
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="
+                    p-3
+                    rounded-full
+                    bg-[var(--color-accent)]
+                    text-black
+                  "
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* NAV LINKS */}
+              <div className="flex flex-col gap-6">
+                {navLinks.map((link, i) => (
+                  <motion.button
+                    key={link.name}
+                    initial={{ x: -30, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                    onClick={() => handleScrollTo(link.id)}
                     className="
-                      text-xl
+                      text-4xl
                       font-bold
-                      text-gray-200
-                      tracking-widest
-                      hover:text-[#8E7FFF]
-                      transition-colors
+                      text-[var(--color-text)]
+                      flex justify-between items-center
+                      group
                     "
                   >
-                    {item.name}
-                  </motion.a>
+                    <span className="group-hover:text-[var(--color-accent)] transition">
+                      {link.name}
+                    </span>
+                    <ArrowUpRight className="opacity-40 group-hover:opacity-100" />
+                  </motion.button>
                 ))}
               </div>
+
+              {/* FOOTER */}
+              <div className="mt-auto pt-10 border-t border-white/10">
+                <p className="text-[var(--color-muted)] text-sm">
+                  Built with MERN ⚡ | Aman Sharma
+                </p>
+              </div>
+
             </motion.div>
           )}
         </AnimatePresence>
+
       </motion.nav>
     </div>
   );

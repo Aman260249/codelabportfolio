@@ -4,11 +4,7 @@ import axios from 'axios';
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
 const Contact = () => {
-  const mernGradient = "linear-gradient(to right, #8B8BD8, #575762, #494972)";
-  const boxBg = "linear-gradient(135deg, #202021 0%, #2C2833 50%, #201731 100%)";
-  const neonColor = "#8E7FFF";
 
-  // 🔥 DIRECT BACKEND URL (No more undefined errors)
   const backendUrl = "https://codelabportfolio.onrender.com";
 
   const [formData, setFormData] = useState({
@@ -19,7 +15,7 @@ const Contact = () => {
     message: ''
   });
 
-  const [status, setStatus] = useState(null); // success | error | null
+  const [status, setStatus] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,13 +24,8 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // API call using direct URL
-      const response = await axios.post(
-        `${backendUrl}/api/contact`,
-        formData
-      );
-
-      if (response.data.success) {
+      const res = await axios.post(`${backendUrl}/api/contact`, formData);
+      if (res.data.success) {
         setStatus("success");
         setFormData({
           firstName: '',
@@ -45,159 +36,119 @@ const Contact = () => {
         });
         setTimeout(() => setStatus(null), 4000);
       }
-    } catch (error) {
-      console.error("Error sending message:", error);
+    } catch {
       setStatus("error");
       setTimeout(() => setStatus(null), 4000);
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="min-h-screen w-full flex items-center justify-center px-6 laptop:px-32 bg-[#0F0F0F] snap-start py-20 relative overflow-hidden"
-    >
-      <div className="absolute -bottom-20 -right-20 w-[400px] h-[400px] bg-[#8E7FFF]/10 blur-[150px] rounded-full pointer-events-none" />
+    <section className="relative min-h-screen w-full flex items-center justify-center px-5 md:px-10 py-24 bg-[var(--color-bg)] overflow-hidden">
 
-      <div className="z-10 w-full max-w-7xl flex flex-col laptop:flex-row gap-10">
+      {/* GLOW */}
+      <div className="absolute right-0 bottom-0 w-[400px] h-[400px] bg-[var(--color-accent)]/10 blur-[120px] rounded-full" />
 
-        {/* LEFT INFO */}
+      <div className="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-2 gap-10">
+
+        {/* LEFT */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
+          initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          style={{ background: boxBg, borderColor: neonColor }}
-          className="w-full laptop:w-1/3 border-2 rounded-[2.5rem] p-10 flex flex-col justify-between"
+          className="flex flex-col justify-between p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl"
         >
           <div>
-            <h2 className="text-4xl laptop:text-5xl font-black text-white mb-4">
-              Contact Me
+            <h2 className="text-3xl md:text-5xl font-[var(--font-heading)] text-[var(--color-text)] mb-4">
+              Let's Work Together
             </h2>
-            <p className="text-gray-400 mb-10 font-medium">
-              Let's build something amazing together.
+
+            <p className="text-[var(--color-muted)] mb-10">
+              Have a project idea or want to collaborate? Feel free to reach out.
             </p>
 
-            <div className="space-y-8">
-              <a href="mailto:your@gmail.com" className="flex items-center gap-5">
-                <FaEnvelope className="text-2xl text-[#8E7FFF]" />
-                <span className="text-gray-300 font-bold">aman26024@gmail.com</span>
+            <div className="space-y-6">
+
+              <a href="mailto:aman26024@gmail.com" className="flex items-center gap-4 text-[var(--color-muted)] hover:text-[var(--color-accent)] transition">
+                <FaEnvelope className="text-xl" />
+                <span>Email Me</span>
               </a>
 
-              <a href="https://github.com/Aman260249" target="_blank" rel="noreferrer" className="flex items-center gap-5">
-                <FaGithub className="text-2xl text-[#8E7FFF]" />
-                <span className="text-gray-300 font-bold">GitHub</span>
+              <a href="https://github.com/Aman260249" target="_blank" rel="noreferrer" className="flex items-center gap-4 text-[var(--color-muted)] hover:text-[var(--color-accent)] transition">
+                <FaGithub className="text-xl" />
+                <span>GitHub</span>
               </a>
 
-              <a href="https://www.linkedin.com/in/aman-sharma-2b0183210" target="_blank" rel="noreferrer" className="flex items-center gap-5">
-                <FaLinkedin className="text-2xl text-[#8E7FFF]" />
-                <span className="text-gray-300 font-bold">LinkedIn</span>
+              <a href="https://www.linkedin.com/in/aman-sharma-2b0183210" target="_blank" rel="noreferrer" className="flex items-center gap-4 text-[var(--color-muted)] hover:text-[var(--color-accent)] transition">
+                <FaLinkedin className="text-xl" />
+                <span>LinkedIn</span>
               </a>
+
             </div>
           </div>
 
-          <div className="mt-12 text-xs text-gray-500 tracking-widest uppercase font-bold">
-            Available for freelance & full-time
+          <div className="mt-10 text-sm text-[var(--color-accent)] font-semibold">
+            🟢 Available for freelance & full-time
           </div>
         </motion.div>
 
         {/* RIGHT FORM */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
+          initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
-          style={{ background: boxBg, borderColor: neonColor }}
-          className="w-full laptop:w-2/3 border-2 rounded-[2.5rem] p-8 laptop:p-12"
+          className="p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl"
         >
-          <div className="mb-8">
-            <h2 className="text-4xl font-black text-white uppercase tracking-tighter">
-              Get In Touch
-            </h2>
-            <p
-              style={{
-                backgroundImage: mernGradient,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }}
-              className="font-bold text-lg italic"
-            >
-              Let's work together
-            </p>
-          </div>
 
-          {/* ✅ SUCCESS / ERROR POPUP */}
+          <h3 className="text-2xl md:text-3xl font-[var(--font-heading)] text-[var(--color-text)] mb-6">
+            Get In Touch
+          </h3>
+
+          {/* STATUS */}
           {status === "success" && (
-            <div className="mb-6 p-4 rounded-xl border border-[#8E7FFF] bg-[#8E7FFF]/10 text-[#8E7FFF] font-bold shadow-[0_0_20px_#8E7FFF40]">
-              ✅ Message sent successfully. I’ll get back to you soon.
+            <div className="mb-4 text-green-400 text-sm">
+              ✅ Message sent successfully
             </div>
           )}
 
           {status === "error" && (
-            <div className="mb-6 p-4 rounded-xl border border-red-500 bg-red-500/10 text-red-400 font-bold">
-              ❌ Something went wrong. Please try again.
+            <div className="mb-4 text-red-400 text-sm">
+              ❌ Failed to send message
             </div>
           )}
 
-          {/* FORM */}
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                placeholder="Your First Name"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                placeholder="Your Last Name"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
-                onChange={handleChange}
-                required
-              />
+          <form onSubmit={handleSubmit} className="space-y-5">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input name="firstName" value={formData.firstName} onChange={handleChange}
+                placeholder="First Name"
+                className="input" required />
+
+              <input name="lastName" value={formData.lastName} onChange={handleChange}
+                placeholder="Last Name"
+                className="input" required />
             </div>
 
-            <div className="grid grid-cols-1 tablet:grid-cols-2 gap-6">
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                placeholder="Your Email Address"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="text"
-                name="phone"
-                value={formData.phone}
-                placeholder="Your Phone Number"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-white outline-none focus:border-[#8E7FFF]"
-                onChange={handleChange}
-              />
-            </div>
+            <input name="email" value={formData.email} onChange={handleChange}
+              placeholder="Email"
+              className="input" required />
 
-            <textarea
-              name="message"
-              rows="5"
-              value={formData.message}
-              placeholder="Tell me about your project"
-              className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white resize-none outline-none focus:border-[#8E7FFF]"
-              onChange={handleChange}
-              required
-            />
+            <input name="phone" value={formData.phone} onChange={handleChange}
+              placeholder="Phone (optional)"
+              className="input" />
+
+            <textarea name="message" rows="4" value={formData.message} onChange={handleChange}
+              placeholder="Your message..."
+              className="input resize-none" required />
 
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              className="w-full py-5 bg-[#8E7FFF] text-black font-black uppercase tracking-widest rounded-xl hover:bg-white transition-all"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="w-full py-4 bg-[var(--color-accent)] text-black font-bold rounded-xl transition hover:shadow-[0_0_20px_rgba(0,212,255,0.3)]"
             >
               Send Message
             </motion.button>
+
           </form>
         </motion.div>
+
       </div>
     </section>
   );
